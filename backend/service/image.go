@@ -15,7 +15,7 @@ var imageService *ImageService = nil
 type ImageService struct {
 	dbObject     *gorm.DB
 	images       *common.Queue
-	channel_pool int
+	Channel_pool int
 }
 
 func (imageService *ImageService) Init() {
@@ -23,7 +23,7 @@ func (imageService *ImageService) Init() {
 	imageService.dbObject = database.GetDB()
 	imageService.dbObject.AutoMigrate(&model.Image{})
 	imageService.images = &common.Queue{}
-	imageService.channel_pool = 0
+	imageService.Channel_pool = 0
 }
 
 func UTCtime() string {
@@ -31,11 +31,11 @@ func UTCtime() string {
 }
 
 func (imageService *ImageService) Connect() {
-	imageService.channel_pool += 1
+	imageService.Channel_pool += 1
 }
 
 func (imageService *ImageService) Disconnect() {
-	imageService.channel_pool -= 1
+	imageService.Channel_pool -= 1
 }
 
 func (imageService ImageService) UpdateCache(c chan string) {
@@ -52,7 +52,7 @@ func (imageService ImageService) UpdateCache(c chan string) {
 				if diff >= 10 {
 					fmt.Println("Evicting image")
 					imageService.images.Dequeue()
-					if imageService.channel_pool > 0 {
+					if imageService.Channel_pool > 0 {
 						c <- "update"
 					}
 				} else {
@@ -74,7 +74,7 @@ func GetImagesService() *ImageService {
 
 func (imageService *ImageService) Create(img model.Image, c chan string) model.Image {
 	imageService.images.Enqueue(img)
-	if imageService.channel_pool > 0 {
+	if imageService.Channel_pool > 0 {
 		c <- "uploaded"
 	}
 	return img

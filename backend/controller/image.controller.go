@@ -73,6 +73,7 @@ func wshandler(w http.ResponseWriter, r *http.Request, ic *ImageController) {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println(ic.service.Channel_pool)
 
 	for {
 		// t, msg, err := conn.ReadMessage()
@@ -81,6 +82,7 @@ func wshandler(w http.ResponseWriter, r *http.Request, ic *ImageController) {
 		// }
 		// print(t, msg)
 		data := <-ic.channel
+		fmt.Println(data)
 		conn.WriteMessage(websocket.TextMessage, []byte(data))
 		closeHandler := conn.CloseHandler()
 		conn.SetCloseHandler(func(code int, text string) error {
