@@ -1,12 +1,26 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+// import * as dotenv from "dotenv"
+import Map from './components/Map'
+import { ChakraProvider } from '@chakra-ui/react'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Link,
+  Route,
+} from "react-router-dom";
+import UploadForm from './components/UploadForm';
 
 function App() {
+  // dotenv.config()
   return (
-    <div className="App">
-      <h1 className="font-bold">Vite + React</h1>
-    </div>
+      <ChakraProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Map />} />
+            <Route path='/upload' element={<UploadForm/>}/>
+          </Routes>
+        </Router>
+      </ChakraProvider>
   )
 }
 

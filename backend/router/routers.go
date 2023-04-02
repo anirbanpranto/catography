@@ -8,5 +8,6 @@ import (
 func GetRouters() []common.Router {
 	return []common.Router{
 		UserRouter{&controller.UserController{}},
+		ImageRouter{&controller.ImageController{}},
 	}
 }

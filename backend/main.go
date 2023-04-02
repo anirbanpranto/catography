@@ -5,6 +5,8 @@ import (
 
 	database "backend/database"
 	router "backend/router"
+
+	"github.com/gin-contrib/cors"
 )
 
 func main() {
@@ -12,8 +14,17 @@ func main() {
 	mainRouter := gin.Default()
 	database.InitDB()
 
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*", "http://localhost:5173"}
+	// config.AllowOrigins = []string{"http://google.com", "http://facebook.com"}
+	// config.AllowAllOrigins = true
+
+	mainRouter.Use(cors.New(config))
+
 	//create your initial router group
 	apiGroup := mainRouter.Group("/v1")
+
+	apiGroup.Use(cors.New(config))
 	//initialize routers
 	routers := router.GetRouters()
 	for _, routes := range routers {
