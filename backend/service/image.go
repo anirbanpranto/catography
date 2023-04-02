@@ -2,26 +2,20 @@ package service
 
 import (
 	common "backend/common"
-	database "backend/database"
 	model "backend/model"
 	"fmt"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 var imageService *ImageService = nil
 
 type ImageService struct {
-	dbObject     *gorm.DB
 	images       *common.Queue
 	channel_pool int
 }
 
 func (imageService *ImageService) Init() {
 	//set prefix
-	imageService.dbObject = database.GetDB()
-	imageService.dbObject.AutoMigrate(&model.Image{})
 	imageService.images = &common.Queue{}
 	imageService.channel_pool = 0
 }
