@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	database "backend/database"
 	router "backend/router"
 
 	"github.com/gin-contrib/cors"
@@ -12,7 +11,7 @@ import (
 func main() {
 	//create a default gin engine
 	mainRouter := gin.Default()
-	database.InitDB()
+	//database.InitDB()
 
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"*", "http://localhost:5173"}
